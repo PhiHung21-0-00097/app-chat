@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Message</title>
+</head>
+
+<body>
+  <h1>Message</h1>
+  <ul id="messages"></ul>
+  <form action="" id="chat-form">
+    <input type="text" id="chat-mes" /> <button id="send-chat">Gửi</button>
+  </form>
+</body>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  // Khơi tạo 1 socket.io
+  const socket = io();
+  // Cho ng dùng nhạp tên thông qua hàm prompt()
+  const name = prompt("Nhập tên vào đi ông nậu");
+
+  // Lấy form đc submit , chúng ta sẽ lấy form và nội dung chat để gửi đi
+  const chatForm = document.querySelector("#chat-form");
+  const chatMes = document.querySelector("#chat-mes");
+
+  // Khi form này đc submit thì gọi cái hàm trong này
+  // Thêm sự kiện (e), để ko submit form và sự kiện chạy ổn hơn(nên vậy)
+  chatForm.addEventListener('submit', (e) => {
+    //e.preventDefault(); sẽ ko submit form này nữa
+    e.preventDefault();
+    //Lây value trong thanh input
+    const message = chatMes.value;
+    // DÙng hàm emit với giá trị(tên của gói tin,giá trị gửi đi)
+    socket.emit("on-chat", { name, message });
+    chatMes.value = ''
+  });
+
+
+  const messages = document.querySelector('#messages');
+  socket.on('user-chat', (message) => {
+    //Tạo 1 thẻ li khi có tin nhắn
+
+    const chatItem = document.createElement('li');
+    // Nên dùng  chatITem , k nên dùng innerHtml vì sẽ bị lỗi bảo mật
+    chatItem.textContent = `${message.name}: ${message.message}`;
+    messages.appendChild(chatItem);
+  })
+</script>
+
+</html>
