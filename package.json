@@ -4,8 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "express dev",
-    "build": "express build",
+    "dev": "node dev",
+    "build": "node build",
     "start": "nodemon index.js"
   },
   "dependencies": {
