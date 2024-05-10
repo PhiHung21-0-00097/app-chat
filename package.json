@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon dev",
     "build": "nodemon build",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "deploy": "yarn install && yarn start"
   },
   "dependencies": {
     "express": "^4.19.2",
